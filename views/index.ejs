@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+       <nav>
+         <div class="nav-wrapper ">
+           <form name="search" method="post" action="/search">
+             <div class="input-field">
+               <input name="search" id="search" type="search" required>
+               <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+               <i class="material-icons">close</i>
+             </div>
+           </form>
+         </div>
+       </nav>
+
+
+       <div class="container">
+         <div class="row">
+           <div class="col s12 align-center">
+             <h2>Welcome To Iboss</h2>
+
+             <a href="/assign"><button class="btn waves-effect waves-light  green" type="submit" name="action" target="_blank">+
+                  <i class="material-icons left"></i>
+                </button><br></a>
+             <a href="/report"><button class="btn waves-effect waves-light  pink" type="submit" name="action" target="_blank">Lihat Report
+                  <i class="material-icons left"></i>
+                </button><br></a>
+
+
+           </div>
+
+           <hr>
+
+            <% departments.forEach( (dept) => { %>
+           <div class="col s12 m3 l4 card-panel hoverable">
+             <p class="center flow-text"><%= dept.name %></p>
+             <ul class="collapsible" data-collapsible="expandable">
+               <% dept.tasks.forEach( (deptTask) => { %>
+               <li>
+                 <div class="collapsible-header"><span class="badge"></span><i class="material-icons">assignment</i><%= deptTask.deadline%></div>
+                 <div class="collapsible-body">
+                   <% if (deptTask.completion) {
+                     deptTask.name += " [Complete]"
+                   } %>
+                   <div class="collection">
+                     <a href=" /edit/<%= deptTask.id%>" class="collection-item">  <%= deptTask.name %></a><a class="right" href="/delete/<%= deptTask.id %>">X</a>
+                   </div>
+                 </div>
+               </li>
+             <% }) %>
+             </ul>
+           </div>
+           <% })%>
+
+           <br>
+
+           </div>
+         </div>
+
+
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+      <script type="text/javascript">
+        $('.tap-target').tapTarget('open');
+        $('.tap-target').tapTarget('close');
+        $(document).ready(function() {
+          $('select').material_select();
+        });
+      </script>
+    </body>
+</html>
