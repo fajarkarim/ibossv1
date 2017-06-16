@@ -49,7 +49,8 @@ router.get('/search', (req,res) => {
   } else {
     res.redirect('/login')
   }
-
+  
+  res.locals.helpers = dateHelper
   let department = req.query.department
   let sortby = req.query.sortby
   let task = req.query.task
@@ -81,8 +82,9 @@ router.get('/search', (req,res) => {
             }
           }
         })
-        .then(tasks => {
-          res.json(tasks)
+        .then(_tasks => {
+          // res.json(tasks)
+          res.render('boss/search',{tasks : _tasks})
         })
         .catch(err => {
           res.json(err)
@@ -100,8 +102,9 @@ router.get('/search', (req,res) => {
         }
       }
     })
-    .then(tasks => {
-      res.json(tasks)
+    .then(_tasks => {
+      // res.json(_tasks)
+      res.render('boss/search',{tasks : _tasks})
       // console.log(`${JSON.stringify(tasks)}`);
     })
   }

@@ -24,6 +24,13 @@ function searchTasksByDepartment(taskName,deptName,orderBy) {
           }
         }
       })
+      .then(tasks => {
+        res.json(tasks)
+        // console.log(`${JSON.stringify(tasks)}`);
+      })
+      .catch(err => {
+        res.json(err)
+      })
     })
   })
 }
@@ -37,7 +44,10 @@ function searchTasks(taskName, orderBy) {
       }
     }
   })
-
+  .then(tasks => {
+    res.json(tasks)
+    // console.log(`${JSON.stringify(tasks)}`);
+  })
 }
 
 function sortTasksByDeadline() {

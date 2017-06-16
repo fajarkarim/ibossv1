@@ -40,7 +40,7 @@
           <% todos.forEach(todo => { %>
             <div class="row">
               <div class="col-md-12">
-                <div class="panel-body"><%= todo.task %><br><span class="created-at">Deadline <%= todo.deadline %></span>
+                <div class="panel-body"><%= todo.task %><br><span class="created-at">Deadline <%= helpers.convertDate(todo.deadline) %></span>
                 </div>
               </div>
             </div>
