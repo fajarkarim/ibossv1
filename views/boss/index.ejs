@@ -26,7 +26,7 @@
     </ul>
     <form action="/boss/search" class="navbar-form navbar-left">
       <div class="form-group">
-        <input name="task" type="text" class="form-control" placeholder="Search Task">
+        <input value="" name="task" type="text" class="form-control" placeholder="Search Task">
       </div>
 
       <label class="sortby" for=""> Department :  </label>
@@ -38,7 +38,7 @@
 
       <label class="sortby" for=""> Sort By :  </label>
         <select name="sortby">
-          <option value="none">None</option>
+          <option value="id">None</option>
           <option value="deadline">Deadline</option>
           <option value="in_complete">completion</option>
         </select>
@@ -61,7 +61,12 @@
           <% todos.forEach(todo => { %>
             <div class="row">
               <div class="col-md-12">
-                <div class="panel-body"><%= todo.task %><br><span class="created-at">Deadline <%= helpers.convertDate(todo.deadline) %></span>
+                <div class="panel-body">
+                  <% if (todo.is_complete)  { %>
+                    <span style="text-decoration: line-through"><%= todo.task %></span><br><span class="created-at">Deadline <%= helpers.convertDate(todo.deadline) %></span>
+              <% } else { %>
+                 <span><%= todo.task %></span><br><span class="created-at">Deadline <%= helpers.convertDate(todo.deadline) %></span>
+              <% } %>
                   <div class="edit-button">
                     <a href="/boss/edit/<%= todo.id %>"><span class=" glyphicon glyphicon-pencil"></span></a>
                   </div>

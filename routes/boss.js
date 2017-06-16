@@ -52,10 +52,59 @@ router.get('/search', (req,res) => {
 
   let department = req.query.department
   let sortby = req.query.sortby
-  let task = req.query.search
+  let task = req.query.task
   // console.log(searchHelper);
+  search(task,department,sortby)
 
-  searchHelper(task,department,sortby)
+  function search(taskName,deptName="none",orderBy="id") {
+    if (deptName != "none") {
+      searchTasksByDepartment(taskName,deptName,orderBy)
+    } else {
+      searchTasks(taskName,orderBy)
+    }
+  }
+
+  function searchTasksByDepartment(taskName,deptName,orderBy) {
+    db.Department.findAll({
+      where : {
+        name : `${deptName}`
+      }
+    })
+    .then(depts => {
+      console.log(depts);
+      depts.forEach(dept => {
+        dept.getTasks({
+          order : [[`${orderBy}`, 'DESC']],
+          where : {
+            task : {
+              $like: `%${taskName}%`
+            }
+          }
+        })
+        .then(tasks => {
+          res.json(tasks)
+        })
+        .catch(err => {
+          res.json(err)
+        })
+      })
+    })
+  }
+
+  function searchTasks(taskName, orderBy) {
+    db.Task.findAll({
+      order : [[`${orderBy}`, `DESC`]],
+      where : {
+        task : {
+          $like : `%${taskName}%`
+        }
+      }
+    })
+    .then(tasks => {
+      res.json(tasks)
+      // console.log(`${JSON.stringify(tasks)}`);
+    })
+  }
 
 })
 
