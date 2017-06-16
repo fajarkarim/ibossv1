@@ -16,16 +16,54 @@
       <a class="navbar-brand" href="#">iBoss</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
+      <li class="active"><a href="/boss">Home</a></li>
     </ul>
   </div>
 </nav>
 
 <div class="container">
-  <h3>Navbar Forms</h3>
-  <p>Use the .navbar-form class to vertically align form elements (same padding as links) inside the navbar.</p>
+  <div class="col-md-5">
+    <div class="form-area">
+
+      <form action="/boss/edit/<%= task.id %>" method="post">
+        <h3 style="margin-bottom: 25px; text-align: center;">Edit your todo</h3>
+        <div class="form-group">
+          Department:<br>
+          <select name="department" class="form-control">
+            <%  depts.forEach(d => { %>
+              <% if (d.name == selectedDept.name) { %>
+                  <option value="<%=d.id%>" selected><%=d.name%></option>
+              <% } else { %>
+                  <option value="<%=d.id%>"><%=d.name%></option>
+              <% } %>
+            <% }) %>
+          </select>
+        </div>
+        <br>
+        <div class="from-group">
+          is complete ?
+          <select name="status" class="form-control">
+              <option value="<%=task.is_complete%>" selected><%=task.is_complete%></option>
+              <option value="<%=!task.is_complete%>"><%=!task.is_complete%></option>
+            </select>
+        </div>
+        <div class="form-group">
+          Deadline
+
+              <input name="deadline" class="form-control" type="textarea" id="message" placeholder="" maxlength="140" rows="4" value="<%= task.deadline  %>"></input>
+          <span class="help-block"><p id="characterLeft" class="help-block "></p></span>
+        </div>
+        <br>
+        Your task:<br>
+        <div class="form-group">
+              <textarea name="task" class="form-control" type="textarea" id="message" placeholder="your todo here..." maxlength="140" rows="4" value=""><%= task.task%></textarea>
+          <span class="help-block"><p id="characterLeft" class="help-block "></p></span>
+        </div>
+        <br><br>
+        <input class="btn btn-primary pull-right" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
 </div>
 
 </body>

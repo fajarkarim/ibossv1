@@ -10,23 +10,7 @@
 </head>
 
 <style>
-.search-box input[type=text] select  {
-    width: 130px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
 
-.search-box input[type=text]:focus {
-    width: 50%;
-}
 </style>
 
 <body>
@@ -37,9 +21,8 @@
       <a class="navbar-brand" href="#">iBoss</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
+      <li class="active"><a href="/boss">Home</a></li>
+      <li class="active"><a href="/logout">Logout</a></li>
     </ul>
     <form action="/boss/search" class="navbar-form navbar-left">
       <div class="form-group">
@@ -65,9 +48,40 @@
   </div>
 </nav>
 
-<div class="container">
-  <h3>Navbar Forms</h3>
-  <p>Use the .navbar-form class to vertically align form elements (same padding as links) inside the navbar.</p>
+<div class="container main">
+  <div class="row">
+    <h1 class="text-center title">Todo Apps</h1>
+      <% bossTodos.forEach(bossTodo => { %>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="panel panel-default">
+          <div class="text-center panel-heading"><b>Departemen <%=  bossTodo.name %></b></div>
+          <div class="text-center panel-heading"><%= bossTodo.manager %>, <%=  bossTodo.email %></div>
+          <br>
+          <% var todos = bossTodo.Tasks %>
+          <% todos.forEach(todo => { %>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel-body"><%= todo.task %><br><span class="created-at">Deadline <%= helpers.convertDate(todo.deadline) %></span>
+                  <div class="edit-button">
+                    <a href="/boss/edit/<%= todo.id %>"><span class=" glyphicon glyphicon-pencil"></span></a>
+                  </div>
+                  <div class="close-button">
+                    <a href="/boss/delete/<%= todo.id%>"><span class="glyphicon glyphicon-remove close-button"></span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% }) %>
+        </div>
+      </div>
+      <% }) %>
+      <a href="/boss/create">
+        <button type="button" class="btn btn-default btn-lg">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+      </a>
+  </div>
 </div>
 
 </body>

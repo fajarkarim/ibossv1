@@ -16,23 +16,67 @@
       <a class="navbar-brand" href="#">iBoss</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
+      <li class="active"><a href="/boss">Home</a></li>
     </ul>
-    <form class="navbar-form navbar-left">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
   </div>
 </nav>
 
-<div class="container">
-  <h3>Navbar Forms</h3>
-  <p>Use the .navbar-form class to vertically align form elements (same padding as links) inside the navbar.</p>
-</div>
+<body>
+  <div class="container">
+    <div class="col-md-5">
+      <div class="form-area">
 
+        <form action="/boss/create" method="post">
+          <h3 style="margin-bottom: 25px; text-align: center;">Make your todo</h3>
+          <div class="form-group">
+            Department:<br>
+            <select name="department" class="form-control">
+              <%  depts.forEach(dept => { %>
+                <option value="<%=dept.id%>"><%=dept.name%></option>
+                <%  }) %>
+              </select>
+          </div>
+          <br>
+          <div class="form-group">
+            Deadline
+                <input name="deadline" class="form-control" placeholder="Deadline" value=""></input>
+          </div>
+          Task:<br>
+          <div class="form-group">
+            <textarea name="task" class="form-control" type="textarea" id="message" placeholder="your todo here..." maxlength="140" rows="4"></textarea>
+            <span class="help-block"><p id="characterLeft" class="help-block "></p></span>
+          </div>
+          <br><br>
+          <input class="btn btn-primary pull-right" type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+      $('#characterLeft').text('140 characters left');
+      $('#message').keydown(function () {
+          var max = 140;
+          var len = $(this).val().length;
+          if (len >= max) {
+              $('#characterLeft').text('You have reached the limit');
+              $('#characterLeft').addClass('red');
+              $('#btnSubmit').addClass('disabled');
+          }
+          else {
+              var ch = max - len;
+              $('#characterLeft').text(ch + ' characters left');
+              $('#btnSubmit').removeClass('disabled');
+              $('#characterLeft').removeClass('red');
+          }
+      });
+    });
+
+  </script>
 </body>
 </html>

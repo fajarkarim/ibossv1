@@ -34,7 +34,7 @@ app.use(session(session_conf))
 app.use('/', index);
 app.use('/users', users);
 app.use('/boss', boss);
-// app.use('/manager',manager)
+app.use('/manager',manager)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

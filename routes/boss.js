@@ -1,7 +1,7 @@
 var express = require('express')
 var db = require('../models')
 var router = express.Router()
-// var dateHelper = require('../helpers/date')
+var dateHelper = require('../helpers/date')
 
 function cekrole() {
   if (req.session.hasOwnProperty('user')) {
@@ -24,13 +24,17 @@ router.get('/',(req,res) => {
     res.redirect('/login')
   }
 
+  res.locals.helpers = dateHelper
+
   db.Department.findAll({
+    order : [['id', 'DESC']],
     include : [{
       model: db.Task
     }]
   })
   .then(_bossTodos => {
     res.render(`${role}/index`,{bossTodos : _bossTodos})
+    // res.json(_bossTodos)
   })
 })
 
@@ -89,33 +93,18 @@ router.post('/create', (req,res) => {
   })
 })
 
-router.get('/edit/:id',(req,res) => {
-  if (req.session.hasOwnProperty('user')) {
-    var role = req.session.user.role
-    if (role != 'boss') {
-      res.redirect(`/${role}`)
-    }
-  } else {
-    res.redirect('/login')
-  }
-
-  let _id = req.params.id
-  let _user;
-  db.Department.findAll(
-    {
-    include : [{
-      model: db.Task,
-      where : {id : _id},
-      required : false
-    }]
-  }
-).then(_depts => {
-    _depts.forEach(dept => {
-      if (dept.Task.length != 0) {
-        selectedDept = dept
-      }
+router.get('/edit/:id', (req,res) => {
+  let id  = req.params.id
+  db.Department.findAll()
+  .then(_depts => {
+    db.Task.findById(id)
+    .then(_task => {
+      _task.getDepartment()
+      .then(_selectedDept => {
+        // res.json([_task,_selectedDept,_depts])
+        res.render('boss/edit',{task: _task, selectedDept : _selectedDept, depts:_depts})
+      })
     })
-    res.render(`${role}/edit`, {depts: _depts, dept: selectedDept})
   })
 })
 
@@ -135,15 +124,17 @@ router.post('/edit/:id', (req,res) => {
   let is_complete = req.body.status
   let deptID = req.body.department
 
+  // res.json(is_complete)
+
   db.Task.update(
     {
-      title : task,
+      task : task,
       is_complete : is_complete,
       deadline: deadline,
-      department : deptID
+      DepartmentId : deptID
     },
     {
-      where:{id:_id}
+      where:{id:id}
     }
   )
   .then(task => {

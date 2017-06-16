@@ -32,7 +32,7 @@ router.post('/login', function (req,res) {
   }})
   .then(user => {
     if (user) {
-      req.session.user = {username : _username, role:user.role}
+      req.session.user = {username : _username, role:user.role, email:user.email}
       res.redirect('/')
     } else {
       res.redirect('/login')
