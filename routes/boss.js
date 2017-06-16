@@ -2,6 +2,8 @@ var express = require('express')
 var db = require('../models')
 var router = express.Router()
 var dateHelper = require('../helpers/date')
+var searchHelper = require('../helpers/search')
+var reportHelper = require('../helpers/report')
 
 function cekrole() {
   if (req.session.hasOwnProperty('user')) {
@@ -48,8 +50,13 @@ router.get('/search', (req,res) => {
     res.redirect('/login')
   }
 
-  let search = req.query
-  res.json(search)
+  let department = req.query.department
+  let sortby = req.query.sortby
+  let task = req.query.search
+  // console.log(searchHelper);
+
+  searchHelper(task,department,sortby)
+
 })
 
 router.get('/create', (req,res) => {

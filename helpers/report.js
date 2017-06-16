@@ -1,39 +1,39 @@
 
-let deptTasks = [
-  {
-    id : 1,
-    task : "makan ayam",
-    is_complete : true,
-    deadline : new Date("2012-06-01"),
-    DepartmentId : 1
-  },{
-    id : 2,
-    task : "makan onta",
-    is_complete : true,
-    deadline : new Date("2017-05-04"),
-    DepartmentId : 1
-  },{
-    id : 3,
-    task : "Makan gule",
-    is_complete : false,
-    deadline : new Date("2017-07-01"),
-    DepartmentId : 1
-  },{
-    id : 4,
-    task : "lari iga",
-    is_complete : true,
-    deadline : new Date("2017-07-01"),
-    DepartmentId : 1
-  },{
-    id : 5,
-    task : "lari larii",
-    is_complete : true,
-    deadline : new Date("2017-07-01"),
-    DepartmentId : 1
-  },
-]
+// let deptTasks = [
+//   {
+//     id : 1,
+//     task : "makan ayam",
+//     is_complete : true,
+//     deadline : new Date("2012-06-01"),
+//     DepartmentId : 1
+//   },{
+//     id : 2,
+//     task : "makan onta",
+//     is_complete : true,
+//     deadline : new Date("2017-05-04"),
+//     DepartmentId : 1
+//   },{
+//     id : 3,
+//     task : "Makan gule",
+//     is_complete : false,
+//     deadline : new Date("2017-07-01"),
+//     DepartmentId : 1
+//   },{
+//     id : 4,
+//     task : "lari iga",
+//     is_complete : true,
+//     deadline : new Date("2017-07-01"),
+//     DepartmentId : 1
+//   },{
+//     id : 5,
+//     task : "lari larii",
+//     is_complete : true,
+//     deadline : new Date("2017-07-01"),
+//     DepartmentId : 1
+//   },
+// ]
 
-function report(tasks, deptName="Marketing") {
+function report(tasks, deptName) {
 
   tasks = tasks.sort(function(a,b){
     return a.deadline.getMonth() - b.deadline.getMonth();
@@ -83,4 +83,6 @@ function report(tasks, deptName="Marketing") {
   result.percentage = percentage
   return result
 }
-console.log(report(deptTasks));
+// console.log(report(deptTasks));
+
+module.exports = {report}
